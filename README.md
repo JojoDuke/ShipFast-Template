@@ -17,6 +17,7 @@ Hey maker 👋 it's Marc from [ShipFast](https://shipfa.st/docs). Let's get your
 -   [📚 Documentation](https://shipfa.st/docs)
 -   [📣 Updates](https://shipfast.beehiiv.com/)
 -   [🧑‍💻 Discord](https://shipfa.st/dashboard)
+-   [🥇 Leaderboard](https://shipfa.st/leaderboard)
 
 ## Support
 

@@ -1,21 +1,19 @@
 import { NextResponse } from "next/server";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { createClient } from "@/libs/supabase/server";
 import { createCustomerPortal } from "@/libs/stripe";
 
 export async function POST(req) {
   try {
-    const cookieStore = cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    const supabase = createClient();
 
     const body = await req.json();
 
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
     // User who are not logged in can't make a purchase
-    if (!session) {
+    if (!user) {
       return NextResponse.json(
         { error: "You must be logged in to view billing information." },
         { status: 401 }
@@ -30,7 +28,7 @@ export async function POST(req) {
     const { data } = await supabase
       .from("profiles")
       .select("*")
-      .eq("id", session?.user?.id)
+      .eq("id", user?.id)
       .single();
 
     if (!data?.customer_id) {

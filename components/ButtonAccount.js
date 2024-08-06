@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/libs/supabase/client";
 import apiClient from "@/libs/api";
 
 // A button to show user some account actions
@@ -13,15 +13,17 @@ import apiClient from "@/libs/api";
 //  2. Logout: sign out and go back to homepage
 // See more at https://shipfa.st/docs/components/buttonAccount
 const ButtonAccount = () => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      setUser(data.user);
+      setUser(user);
     };
 
     getUser();

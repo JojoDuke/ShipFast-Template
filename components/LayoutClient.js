@@ -1,6 +1,6 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/libs/supabase/client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Crisp } from "crisp-sdk-web";
@@ -14,18 +14,18 @@ import config from "@/config";
 const CrispChat = () => {
   const pathname = usePathname();
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [data, setData] = useState(null);
 
   // This is used to get the user data from Supabase Auth (if logged in) => user ID is used to identify users in Crisp
   useEffect(() => {
     const getUser = async () => {
       const {
-        data: { session },
-      } = await supabase.auth.getSession();
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      if (session) {
-        setData(session.user);
+      if (user) {
+        setData({ user });
       }
     };
     getUser();
